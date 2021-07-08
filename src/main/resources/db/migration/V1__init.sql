@@ -1,7 +1,7 @@
 CREATE TABLE roles
 (
     id                  SERIAL                  PRIMARY KEY,
-    role_name           VARCHAR(20)             NOT NULL
+    name           VARCHAR(20)             NOT NULL
 );
 
 CREATE TABLE users
