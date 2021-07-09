@@ -7,7 +7,7 @@ spring.datasource:
 flyway:
   enabled: true
 
-jwt.token.secret: jwtappdemo
+jwt.token.secret: jwtappdemoabracadabrahellofreand
 jwt.token.expired: 360000
 jwt.token.jwtRefreshExpirationMs: 86400000
 

@@ -1,22 +1,20 @@
-package by.artur.authentication_app.service.impl;
+package by.artur.authentication_app.security.jwt.services;
 
+import by.artur.authentication_app.exception.TokenRefreshException;
 import by.artur.authentication_app.model.RefreshToken;
-import by.artur.authentication_app.model.Role;
 import by.artur.authentication_app.repository.RefreshTokenRepository;
 import by.artur.authentication_app.repository.UserRepository;
-import by.artur.authentication_app.security.jwt.TokenRefreshException;
-import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class RefreshTokenService {
-
     @Value("${jwt.token.jwtRefreshExpirationMs}")
     private Long refreshTokenDurationMs;
 
@@ -54,5 +52,4 @@ public class RefreshTokenService {
     public int deleteByUserId(Long userId) {
         return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
     }
-
 }

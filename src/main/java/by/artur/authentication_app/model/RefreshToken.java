@@ -19,6 +19,8 @@ public class RefreshToken {
     @Column(name = "token")
     private String token;
 
+    //todo add fingerprint
+
     @Column(name = "expiry_date")
     private Instant expiryDate;
 }

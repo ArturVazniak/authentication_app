@@ -3,6 +3,8 @@ package by.artur.authentication_app.security;
 import by.artur.authentication_app.security.jwt.AuthEntryPointJwt;
 import by.artur.authentication_app.security.jwt.AuthTokenFilter;
 import by.artur.authentication_app.security.jwt.services.UserDetailsServiceImpl;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,12 +22,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final AuthEntryPointJwt unauthorizedHandler;
+    private final CustomWebAuthenticationDetailsSource authenticationDetailsSource;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -50,7 +52,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.formLogin()
+                .authenticationDetailsSource(authenticationDetailsSource)
+                .and()
+                .cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()

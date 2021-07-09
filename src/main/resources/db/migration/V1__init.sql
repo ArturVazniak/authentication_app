@@ -1,7 +1,7 @@
 CREATE TABLE roles
 (
     id                  SERIAL                  PRIMARY KEY,
-    name           VARCHAR(20)             NOT NULL
+    name                VARCHAR(20)             NOT NULL
 );
 
 CREATE TABLE users
@@ -27,9 +27,9 @@ CREATE TABLE user_roles
 CREATE TABLE refreshtoken
 (
     id                 BIGSERIAL                   PRIMARY KEY,
-    user_id               BIGINT,
-    token               VARCHAR(255),
-    expiry_date          DATE,
+    user_id            BIGINT,
+    token              VARCHAR(255)                NOT NULL,
+    expiry_date         DATE                       NOT NULL,
 
-        FOREIGN KEY(user_id) REFERENCES users(id)
+    FOREIGN KEY(user_id) REFERENCES users(id)
 );
