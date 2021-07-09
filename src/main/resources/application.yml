@@ -1,0 +1,15 @@
+spring.datasource:
+  driverClassName: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5432/task
+  username: postgres
+  password: postgres
+
+flyway:
+  enabled: true
+
+jwt.token.secret: jwtappdemo
+jwt.token.expired: 360000
+jwt.token.jwtRefreshExpirationMs: 86400000
+
+server-url: http://localhost:8080
+server-route: 8080

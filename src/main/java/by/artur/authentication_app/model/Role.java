@@ -15,8 +15,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "name")
-    private String name;
+    private ERole name;
 
     @ToString.Exclude
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)

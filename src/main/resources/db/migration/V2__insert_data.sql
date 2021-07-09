@@ -2,7 +2,7 @@ INSERT INTO roles (name)
 VALUES
 ('ROLE_ADMIN'),
 ('ROLE_GUEST'),
-('ROLE_TOUR_OPERATOR');
+('ROLE_OPERATOR');
 
 
 INSERT INTO users (name, password, email, enabled)

@@ -23,3 +23,13 @@ CREATE TABLE user_roles
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY(role_id) REFERENCES roles(id)
 );
+
+CREATE TABLE refreshtoken
+(
+    id                 BIGSERIAL                   PRIMARY KEY,
+    user_id               BIGINT,
+    token               VARCHAR(255),
+    expiry_date          DATE,
+
+        FOREIGN KEY(user_id) REFERENCES users(id)
+);

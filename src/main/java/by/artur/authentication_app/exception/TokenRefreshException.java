@@ -1,4 +1,4 @@
-package by.artur.authentication_app.security.jwt;
+package by.artur.authentication_app.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

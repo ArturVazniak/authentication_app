@@ -1,6 +1,6 @@
-package by.artur.authentication_app.security.jwt.advice;
+package by.artur.authentication_app.advice;
 
-import by.artur.authentication_app.security.jwt.TokenRefreshException;
+import by.artur.authentication_app.exception.TokenRefreshException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
