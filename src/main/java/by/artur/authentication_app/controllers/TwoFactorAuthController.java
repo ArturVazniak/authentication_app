@@ -28,30 +28,30 @@ public class TwoFactorAuthController {
     @Autowired
     PasswordEncoder encoder;
 
-
+    String secret = null;
     @PostMapping("two-registration")
     public ResponseEntity<?> twoRegisterUser(@Valid @RequestBody LoginRequest loginRequest){
         if(userRepository.existsByUsername(loginRequest.getUsername())){
-            String secret = twoFactorAuth.generateSecretKey();
-            String encoderSecret = encoder.encode(secret);
+            secret = twoFactorAuth.generateSecretKey();
+            //String encoderSecret = encoder.encode(secret);
 
             User user = userRepository.findByUsername(loginRequest.getUsername()).get();
-            return ResponseEntity.ok(new TwoFactorResponse(encoderSecret, twoFactorAuth.generateQRUrl(user,secret)));
+            return ResponseEntity.ok(new TwoFactorResponse(secret, twoFactorAuth.generateQRUrl(user,secret)));
         }
 
         return ResponseEntity.badRequest().body(new MessageResponse("Error: user is not exist"));
     }
 
     @PostMapping("ride-code")
-   public ResponseEntity<?> rideQrCode(@RequestBody TwoFactorResponse twoFactorResponse,String secretKey){
-        String code = twoFactorAuth.getTOTPCode(secretKey);
-        System.out.println(encoder.encode(code));
-        System.out.println(twoFactorResponse.getSecret());
-        if(encoder.encode(code).equals(twoFactorResponse.getSecret())){
+   public ResponseEntity<?> rideQrCode(@RequestBody LoginRequest loginRequest,String secretKey){
+        User user = userRepository.findByUsername(loginRequest.getUsername()).get();
+        TwoFactorResponse twoFactorResponse = new TwoFactorResponse(secret, twoFactorAuth.generateQRUrl(user,secret));
+
+        if(twoFactorResponse.equals(twoFactorAuth.generateQRUrl(user,secretKey))){
             return ResponseEntity.ok("Hello");
         }
 
-        return ResponseEntity.ok("Ho Hello");
+        return ResponseEntity.ok("No Hello");
     }
 
 }
