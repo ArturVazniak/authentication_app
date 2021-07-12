@@ -54,7 +54,7 @@ public class AuthController {
     @Autowired
     RefreshTokenService refreshTokenService;
 
-    @PostMapping("/signin")
+    @PostMapping("/signIn")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager
@@ -85,10 +85,10 @@ public class AuthController {
         }
 
         // Create new user's account
-        User.builder()
+    /*    User.builder()
                 .id()
                 .email()
-                .build()
+                .build()*/
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 

@@ -1,20 +1,18 @@
 package by.artur.authentication_app.model;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.jboss.aerogear.security.otp.api.Base32;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
-@Builder
+//@Builder
 @Table(name = "users")
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -37,13 +35,6 @@ public class User {
     inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles = new HashSet<>();
 
-    private boolean isUsing2FA;
-    private String secret;
-
-    public User() {
-        super();
-        this.secret = Base32.random();
-    }
 
     public User(String username, String email, String password) {
         this.username = username;
