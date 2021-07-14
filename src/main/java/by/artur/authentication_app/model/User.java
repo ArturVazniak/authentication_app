@@ -1,8 +1,6 @@
 package by.artur.authentication_app.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,9 +8,10 @@ import java.util.Set;
 
 @Entity
 @Data
-//@Builder
+@Builder(toBuilder = true)
 @Table(name = "users")
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id

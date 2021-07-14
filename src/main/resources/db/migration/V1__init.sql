@@ -24,12 +24,22 @@ CREATE TABLE user_roles
     FOREIGN KEY(role_id) REFERENCES roles(id)
 );
 
-CREATE TABLE refreshtoken
+CREATE TABLE refresh_token
 (
     id                 BIGSERIAL                   PRIMARY KEY,
     user_id            BIGINT,
     token              VARCHAR(255)                NOT NULL,
     expiry_date         DATE                       NOT NULL,
 
+    FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+CREATE TABLE account_code
+(
+    id                 BIGSERIAL                   PRIMARY KEY,
+    code               VARCHAR(255),
+    two_factor_token   VARCHAR(255),
+    create_at          TIMESTAMP                    NOT NULL          DEFAULT (now() AT TIME ZONE 'utc'),
+    user_id            BIGINT,
     FOREIGN KEY(user_id) REFERENCES users(id)
 );

@@ -4,6 +4,7 @@ import by.artur.authentication_app.security.jwt.AuthEntryPointJwt;
 import by.artur.authentication_app.security.jwt.AuthTokenFilter;
 import by.artur.authentication_app.security.jwt.services.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -60,4 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
+
+
 }
