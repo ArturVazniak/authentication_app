@@ -1,12 +1,18 @@
 package by.artur.authentication_app.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Date;
 
 @Data
+@Builder(toBuilder = true)
 @Entity(name = "refreshtoken")
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(doNotUseGetters = true, onlyExplicitlyIncluded = true)
+@ToString(doNotUseGetters = true, onlyExplicitlyIncluded = true)
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +24,9 @@ public class RefreshToken {
 
     @Column(name = "token")
     private String token;
+
+    @Column(name = "create_at")
+    private Date dateAt;
 
     //todo add fingerprint
 

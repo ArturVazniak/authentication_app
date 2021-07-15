@@ -51,10 +51,10 @@ public class TwoFactorAuthController {
                     .code(secret)
                     .twoFactorToken(twoFactorToken)
                     .user(user)
-                    .date(now).build();
+                    .dateAt(now).build();
             accountCodeRepository.save(accountCode);
 
-            return ResponseEntity.ok(new TwoFactorResponse(secret, twoFactorAuth.generateQRUrl(user,secret), twoFactorToken));
+            return ResponseEntity.ok(new TwoFactorResponse(twoFactorAuth.generateQRUrl(user,secret), twoFactorToken));
         }
 
         return ResponseEntity.badRequest().body(new MessageResponse("Error: user is not exist"));
@@ -63,10 +63,10 @@ public class TwoFactorAuthController {
     @PostMapping("ride-code")
    public ResponseEntity<?> rideQrCode(@RequestBody TwoFactorResponse twoFactorResponse, String secretKey){
 
-        AccountCode accountCode = accountCodeRepository.findByCode(twoFactorResponse.getSecret());
+        AccountCode accountCode = accountCodeRepository.findByTwoFactorToken(twoFactorResponse.getTwoFactorToken());
 
         if(twoFactorResponse.getTwoFactorToken().equals(accountCode.getTwoFactorToken())) {
-            Totp totp = new Totp(twoFactorResponse.getSecret());
+            Totp totp = new Totp(accountCode.getCode());
             if (!isValidLong(secretKey) || !totp.verify(secretKey)) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Invalid verification code"));
             } else {

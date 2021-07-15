@@ -17,8 +17,7 @@ import org.springframework.util.StringUtils;
         name = "bearerAuth",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
-        scheme = "bearer",
-        description = "???"
+        scheme = "bearer"
 )
 public class SwaggerConfig {
     @Value("${server-url}")

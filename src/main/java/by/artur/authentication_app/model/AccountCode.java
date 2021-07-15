@@ -31,7 +31,7 @@ public class AccountCode implements Serializable {
     String twoFactorToken;
 
     @Column(name = "create_at")
-    Date date;
+    Date dateAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
