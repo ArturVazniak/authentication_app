@@ -27,6 +27,12 @@ public class User {
     @Column(name ="password")
     private String password;
 
+    @Column(name = "mfa")
+    private boolean mfa;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",

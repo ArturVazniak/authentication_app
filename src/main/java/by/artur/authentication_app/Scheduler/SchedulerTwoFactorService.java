@@ -27,10 +27,9 @@ public class SchedulerTwoFactorService {
         if (!accountCodeRepositories.isEmpty()) {
             accountCodeRepositories.stream()
                     .filter(a -> ((a.getDateAt().getTime() + TimeUnit.MINUTES.toMillis(5)) <= new Date().getTime()))
-                    .forEach(code -> {
-                        System.out.println(code.getId());
-                        accountCodeRepository.delete(code);
-                    });
+                    .forEach(code ->
+                        accountCodeRepository.delete(code)
+                    );
         }
     }
 }

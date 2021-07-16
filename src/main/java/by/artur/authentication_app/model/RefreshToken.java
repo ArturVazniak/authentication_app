@@ -7,8 +7,7 @@ import java.time.Instant;
 import java.util.Date;
 
 @Data
-@Builder(toBuilder = true)
-@Entity(name = "refreshtoken")
+@Entity(name = "refresh_token")
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(doNotUseGetters = true, onlyExplicitlyIncluded = true)
@@ -25,10 +24,8 @@ public class RefreshToken {
     @Column(name = "token")
     private String token;
 
-    @Column(name = "create_at")
-    private Date dateAt;
-
-    //todo add fingerprint
+    @Column(name = "fingerprint")
+    private String fingerprint; //web-browser
 
     @Column(name = "expiry_date")
     private Instant expiryDate;

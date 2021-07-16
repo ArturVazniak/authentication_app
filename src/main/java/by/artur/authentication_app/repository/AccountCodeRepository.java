@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountCodeRepository extends JpaRepository<AccountCode, Long> {
 
-    void deleteByCode(String secretKey);
-
     AccountCode findByTwoFactorToken (String token);
 }

@@ -9,4 +9,5 @@ public class TwoFactorResponse {
 
     private String qrCode;
     private String twoFactorToken;
+    private String secretKey;
 }

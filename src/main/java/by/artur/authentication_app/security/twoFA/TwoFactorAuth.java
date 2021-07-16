@@ -2,8 +2,6 @@ package by.artur.authentication_app.security.twoFA;
 
 import by.artur.authentication_app.model.User;
 import org.apache.commons.codec.binary.Base32;
-import org.apache.commons.codec.binary.Hex;
-import de.taimos.totp.TOTP;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +28,8 @@ public class TwoFactorAuth {
     public String generateQRUrl(User user, String secret) {
         return QR_PREFIX + URLEncoder.encode(String.format(
                 "otpauth://totp/%s:%s?secret=%s&issuer=%s",
-                user.getUsername(), user.getEmail(), secret, appName,
+                appName, user.getEmail(), secret, appName,
                 StandardCharsets.UTF_8));
     }
+
 }
