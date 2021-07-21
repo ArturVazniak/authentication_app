@@ -1,6 +1,5 @@
 package by.artur.authentication_app.payload.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.Email;

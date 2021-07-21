@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Date;
 
 @Data
 @Entity(name = "refresh_token")
@@ -23,9 +22,6 @@ public class RefreshToken {
 
     @Column(name = "token")
     private String token;
-
-    @Column(name = "fingerprint")
-    private String fingerprint; //web-browser
 
     @Column(name = "expiry_date")
     private Instant expiryDate;

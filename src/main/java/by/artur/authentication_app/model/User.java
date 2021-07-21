@@ -1,9 +1,12 @@
 package by.artur.authentication_app.model;
 
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -12,6 +15,8 @@ import java.util.Set;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE table_product SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class User {
 
     @Id
@@ -30,8 +35,8 @@ public class User {
     @Column(name = "mfa")
     private boolean mfa;
 
-    @Column(name = "enabled")
-    private boolean enabled;
+    @Column(name = "deleted")
+    private boolean deleted;
 
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.EAGER)
