@@ -1,0 +1,19 @@
+spring.datasource:
+  driverClassName: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5431/admin
+  username: postgres
+  password: postgres
+
+flyway:
+  enabled: true
+
+server:
+  port: 8081
+
+jwt.token.secret:
+    jwtappdemoabracadabrahellofreand
+
+management:
+  security:
+    enabled: true
+

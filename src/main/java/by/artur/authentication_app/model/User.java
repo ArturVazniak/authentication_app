@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,6 +33,9 @@ public class User {
 
     @Column(name = "enabled")
     private boolean enabled;
+
+    @Column(name = "fingerprint")
+    private String fingerprint; //web-browser
 
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.EAGER)

@@ -1,9 +1,14 @@
 package by.artur.authentication_app.security.jwt;
 
+import by.artur.authentication_app.model.Role;
+import by.artur.authentication_app.model.User;
+import by.artur.authentication_app.repository.RoleRepository;
+import by.artur.authentication_app.repository.UserRepository;
 import by.artur.authentication_app.security.jwt.services.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,13 +23,29 @@ public class JwtUtils {
     @Value("${jwt.token.expired}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(UserDetailsImpl userPrincipal) {
-        return generateTokenFromUsername(userPrincipal.getUsername());
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+
+    @Autowired
+    public JwtUtils(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
-    public String generateTokenFromUsername(String username) {
-        return Jwts.builder().setSubject(username).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+    public String generateJwtToken(UserDetailsImpl userPrincipal) {
+        User user = userRepository.findByUsername(userPrincipal.getUsername()).get();
+        Role role = roleRepository.findById(user.getId()).get();
+        return generateTokenFromUsernameAndRole(userPrincipal.getUsername(),role.getName().name());
+    }
+
+
+    public String generateTokenFromUsernameAndRole(String username, String role) {
+        return Jwts.builder()
+                .setSubject(username)
+                .claim("Role", role)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
