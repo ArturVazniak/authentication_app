@@ -1,4 +1,4 @@
-package by.artur.authentication_app.Scheduler;
+package by.artur.authentication_app.scheduler;
 
 import by.artur.authentication_app.model.RefreshToken;
 import by.artur.authentication_app.repository.RefreshTokenRepository;
@@ -29,9 +29,9 @@ public class SchedulerRefreshToken {
 
         if (!refreshTokenList.isEmpty()) {
             refreshTokenList.stream()
-                    .filter(r ->
-                            (r.getExpiryDate().plusMillis(refreshTokenDurationMs)
-                                    .equals(Instant.now()) || r.getExpiryDate().isAfter(Instant.now())))
+                    .filter(refreshToken ->
+                            (refreshToken.getExpiryDate().plusMillis(refreshTokenDurationMs)
+                                    .equals(Instant.now()) || refreshToken.getExpiryDate().isAfter(Instant.now())))
                     .forEach(refreshToken ->
                             refreshTokenRepository.delete(refreshToken));
         }

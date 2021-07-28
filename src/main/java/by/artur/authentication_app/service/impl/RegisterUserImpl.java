@@ -8,7 +8,7 @@ import by.artur.authentication_app.payload.response.MessageResponse;
 import by.artur.authentication_app.repository.RoleRepository;
 import by.artur.authentication_app.repository.UserRepository;
 import by.artur.authentication_app.service.RegisterUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,23 +17,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class RegisterUserImpl implements RegisterUser {
 
     private final RoleRepository roleRepository;
-
     private final PasswordEncoder encoder;
-
     private final UserRepository userRepository;
-
-    @Autowired
-    public RegisterUserImpl(RoleRepository roleRepository,
-                            PasswordEncoder encoder,
-                            UserRepository userRepository) {
-
-        this.roleRepository = roleRepository;
-        this.encoder = encoder;
-        this.userRepository = userRepository;
-    }
 
     @Override
     public ResponseEntity<?> registerUser(SignupRequest signUpRequest) {
@@ -59,26 +48,10 @@ public class RegisterUserImpl implements RegisterUser {
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
+            strRoles.stream()
+                    .map(role -> roleRepository.findByName(ERole.valueOf(role)))
+                    .forEach(role -> roles.add(role.get()));
 
-                        break;
-                    case "operator":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_OPERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
         }
 
         user.setRoles(roles);

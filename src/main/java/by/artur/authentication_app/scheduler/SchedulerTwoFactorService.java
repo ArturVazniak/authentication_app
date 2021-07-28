@@ -1,4 +1,4 @@
-package by.artur.authentication_app.Scheduler;
+package by.artur.authentication_app.scheduler;
 
 import by.artur.authentication_app.model.AccountCode;
 import by.artur.authentication_app.repository.AccountCodeRepository;
@@ -26,7 +26,7 @@ public class SchedulerTwoFactorService {
 
         if (!accountCodeRepositories.isEmpty()) {
             accountCodeRepositories.stream()
-                    .filter(a -> ((a.getDateAt().getTime() + TimeUnit.MINUTES.toMillis(5)) <= new Date().getTime()))
+                    .filter(accountCode -> ((accountCode.getDateAt().getTime() + TimeUnit.MINUTES.toMillis(5)) <= new Date().getTime()))
                     .forEach(code ->
                         accountCodeRepository.delete(code)
                     );

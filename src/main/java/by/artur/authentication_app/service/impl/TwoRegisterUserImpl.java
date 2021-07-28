@@ -11,10 +11,10 @@ import by.artur.authentication_app.repository.UserRepository;
 import by.artur.authentication_app.security.twoFA.TwoFactorAuth;
 import by.artur.authentication_app.service.AuthenticateUser;
 import by.artur.authentication_app.service.TwoRegisterUser;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jboss.aerogear.security.otp.Totp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -22,27 +22,14 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class TwoRegisterUserImpl implements TwoRegisterUser {
 
     private final UserRepository userRepository;
-
     private final TwoFactorAuth twoFactorAuth;
-
     private final AccountCodeRepository accountCodeRepository;
-
     private final AuthenticateUser authenticateUser;
-
-    @Autowired
-    public TwoRegisterUserImpl(UserRepository userRepository,
-                               TwoFactorAuth twoFactorAuth,
-                               AccountCodeRepository accountCodeRepository,
-                               AuthenticateUser authenticateUser) {
-
-        this.userRepository = userRepository;
-        this.twoFactorAuth = twoFactorAuth;
-        this.accountCodeRepository = accountCodeRepository;
-        this.authenticateUser = authenticateUser;
-    }
 
     @Override
     public ResponseEntity<?> twoRegisterUser(LoginRequest loginRequest) {
@@ -69,9 +56,10 @@ public class TwoRegisterUserImpl implements TwoRegisterUser {
     @Override
     public ResponseEntity<?> rideQrCode(TwoFactorRequest twoFactorRequest, String secretKey) {
 
-        if(twoFactorRequest.getTwoFactorToken().isEmpty()) {
+        if(!twoFactorRequest.getTwoFactorToken().isEmpty()) {
 
             AccountCode accountCode = accountCodeRepository.findByTwoFactorToken(twoFactorRequest.getTwoFactorToken());
+            log.info("IN rideQrCode accountCode with id : {}", accountCode.getId());
 
             if (twoFactorRequest.getTwoFactorToken().equals(accountCode.getTwoFactorToken())) {
                 Totp totp = new Totp(twoFactorRequest.getSecretKey());

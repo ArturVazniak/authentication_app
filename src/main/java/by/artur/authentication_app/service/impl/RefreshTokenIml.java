@@ -6,22 +6,16 @@ import by.artur.authentication_app.payload.response.TokenRefreshResponse;
 import by.artur.authentication_app.security.jwt.JwtUtils;
 import by.artur.authentication_app.security.jwt.services.RefreshTokenService;
 import by.artur.authentication_app.service.RefreshTokenController;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RefreshTokenIml implements RefreshTokenController {
 
     private final RefreshTokenService refreshTokenService;
-
     private final JwtUtils jwtUtils;
-
-    @Autowired
-    public RefreshTokenIml(RefreshTokenService refreshTokenService, JwtUtils jwtUtils) {
-        this.refreshTokenService = refreshTokenService;
-        this.jwtUtils = jwtUtils;
-    }
 
     @Override
     public ResponseEntity<?> refreshToken(TokenRefreshRequest request) {
